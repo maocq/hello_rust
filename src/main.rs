@@ -1,8 +1,9 @@
 use std::{io, thread};
 use std::num::ParseIntError;
+use std::time::Duration;
 
 fn main() {
-    _threads();
+    _hilos();
 }
 
 fn _vectores() {
@@ -55,4 +56,57 @@ fn _threads() {
     for h in handles {
         h.join().ok().expect("No se pudo unir un hilo!");
     }
+}
+
+fn _iteradores() {
+    let mut rango = 0..10;
+    loop {
+        match rango.next() {
+            Some(x) => {
+                println!("{}", x);
+            },
+            None => { break }
+        }
+    }
+
+    let nums = vec![1, 2, 3];
+    for num in nums.iter() {
+        println!("{}", num);
+    }
+}
+
+fn _consumidores() {
+    let _uno_hasta_cien = (1..101).collect::<Vec<i32>>();
+    let _uno_hasta_cien = (1..101).collect::<Vec<_>>();
+
+    let mayores_a_cuarenta_y_dos = (0..100)
+        .find(|x| *x > 42);
+    match mayores_a_cuarenta_y_dos {
+        Some(_) => println!("Tenemos algunos números!"),
+        None => println!("No se encontraron números :("),
+    }
+
+    let suma = (1..4).fold(0, |suma, x| suma + x); //6
+    print!("{}", suma);
+}
+
+fn _adaptadores_de_iterador() {
+    let _nums = (1..100).map(|x| x + 1).collect::<Vec<_>>();
+
+    let _nums =  (1..30)
+        .filter(|&x| x % 2 == 0)
+        .filter(|&x| x % 3 == 0)
+        .take(5)
+        .collect::<Vec<i32>>();
+
+    for x in (1..11).map(|x| x + 1).collect::<Vec<_>>() {
+        println!("{}", x);
+    }
+}
+
+fn _hilos() {
+    thread::spawn(|| {
+        println!("Hola desde un hilo!");
+    });
+    thread::sleep(Duration::from_millis(10));
 }
