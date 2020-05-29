@@ -136,11 +136,11 @@ fn _panico_unreachable() {
     enum Estado {
         _Activo,
         _Inactivo,
-        _Desconocido
+        Desconocido
     }
 
-    use Estado::{_Activo, _Inactivo, _Desconocido};
-    let estado = _Desconocido;
+    use Estado::{_Activo, _Inactivo, Desconocido};
+    let estado = Desconocido;
     let _numero = match estado {
         _Activo => 1,
         _Inactivo => 0,
