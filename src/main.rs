@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _try();
+    _slices();
 }
 
 fn _vectores() {
@@ -214,4 +214,40 @@ fn _try() {
         Ok(n) => println!("Ok: {}", n),
         Err(e) => println!("Error: {}", e)
     }
+}
+
+fn _apuntadores_a_funcion() {
+    fn mas_uno(i: i32) -> i32 {
+        i + 1
+    }
+
+    let f: fn(i32) -> i32 = mas_uno;
+    assert_eq!(2, f(1));
+}
+
+fn _primitivos() {
+    let _a: bool = false;
+    let _b: char = 'x';
+    let _c: i32 = 42; //i8, i16, i32, i64, u8, u16, u32, u64, isize, usize, f32, f64
+}
+
+fn _arreglos() {
+    let mut m: [i32; 3] = [1, 2, 3];
+    m[2] = 5;
+    assert_eq!(5, m[2]);
+}
+
+fn _slices() {
+    let a: [i32; 5] = [0, 1, 2, 3, 4];
+    let middle: &[i32] = &a[1..4];
+    assert_eq!(1, middle[0]);
+}
+
+fn _tuplas() {
+    let (x, y) = (1, "Hello");
+    assert_eq!(1, x);
+    assert_eq!("Hello", y);
+
+    let z = (1, "Hello");
+    assert_eq!(1, z.0);
 }
