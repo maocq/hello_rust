@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _slices();
+    _etiquetas_loop();
 }
 
 fn _vectores() {
@@ -250,4 +250,56 @@ fn _tuplas() {
 
     let z = (1, "Hello");
     assert_eq!(1, z.0);
+}
+
+fn _expresiones() {
+    let x = 5;
+    let y = if x == 5 { 10 } else { 15 };
+    assert_eq!(10, y)
+}
+
+fn _while() {
+    let mut x = 0;
+    while x < 10 {
+        x += 1;
+    }
+    assert_eq!(10, x)
+}
+
+fn _for() {
+    for x in 0..10 {
+        println!("{}", x);
+    }
+}
+
+fn _loop() {
+    let mut x = 0;
+    loop {
+        x += 1;
+        if x >= 10 {
+            break
+        }
+    }
+    assert_eq!(10, x)
+}
+
+fn _etiquetas_loop() {
+    'exterior: for x in 0..10 {
+        'interior: for y in 0..10 {
+            if x % 2 == 0 { continue 'exterior; } // continua el ciclo por encima de x
+            if y % 2 == 0 { continue 'interior; } // continua el ciclo por encima de y
+            println!("x: {}, y: {}", x, y);
+        }
+    }
+}
+
+fn _enumerate() {
+    for (i,j) in (5..10).enumerate() {
+        println!("i = {} y j = {}", i, j);
+    }
+
+    let lineas = "hola\nmundo".lines();
+    for (numero_linea, linea) in lineas.enumerate() {
+        println!("{}: {}", numero_linea, linea);
+    }
 }
