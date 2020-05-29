@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _hilos();
+    _panico_hilo();
 }
 
 fn _vectores() {
@@ -109,4 +109,25 @@ fn _hilos() {
         println!("Hola desde un hilo!");
     });
     thread::sleep(Duration::from_millis(10));
+}
+
+fn _thread_handle() {
+    let handle = thread::spawn(|| {
+        "Hola desde un hilo!"
+    });
+    println!("{}", handle.join().unwrap());
+}
+
+fn _panico_hilo() {
+    let valor = 1;
+    let result = thread::spawn(move || {
+        if valor % 2 == 0 { panic!("ups!"); }
+        1
+    }).join();
+
+    let resultado = match result {
+        Ok(n) => n,
+        Err(_e) => 0
+    };
+    assert_eq!(resultado, 1);
 }
