@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _panico_unreachable();
+    _result_funciones();
 }
 
 fn _vectores() {
@@ -149,3 +149,38 @@ fn _panico_unreachable() {
     println!("Linea no alcanzable")
 }
 
+fn _option() {
+    let s = "foo";
+
+    assert_eq!(s.find('f'), Some(0));
+    assert_eq!(s.find('z'), None);
+
+    assert_eq!(s.find('f').map(|p| p + 1), Some(1));
+    assert_eq!(s.find('z').map(|p| p + 1), None);
+}
+
+fn _result_funciones() {
+    enum Error {
+        Tecnico
+    }
+
+    fn f(num: i32) -> Result<i32, Error> {
+        match num {
+            1 => Ok(num + 1),
+            _ => Err(Error::Tecnico)
+        }
+    }
+
+    assert!(f(1).is_ok());
+    assert!(f(2).is_err());
+
+
+    let result: Result<i32, &str> = f(2)
+        .map(|ok| ok)
+        .map_err(|_err| "Error =(");
+
+    match result {
+        Ok(n) => println!("{}", n),
+        Err(e) => println!("{}", e)
+    };
+}
