@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _result_funciones();
+    _try();
 }
 
 fn _vectores() {
@@ -115,6 +115,7 @@ fn _thread_handle() {
     let handle = thread::spawn(|| {
         "Hola desde un hilo!"
     });
+    //unwrap() hará un pánico ( panic! ) si el Result es Err
     assert_eq!("Hola desde un hilo!", handle.join().unwrap());
 }
 
@@ -183,4 +184,34 @@ fn _result_funciones() {
         Ok(n) => println!("{}", n),
         Err(e) => println!("{}", e)
     };
+}
+
+fn _panic_result() {
+    let result: Result<i32, &str> = Ok(1);
+    //let result: Result<i32, &str> = Err("Error =(");
+
+    let valor = result.ok().expect("Error!");
+    assert_eq!(1, valor)
+}
+
+fn _try() {
+    fn _parser(num: &str) -> Result<i32, ParseIntError> {
+        num.parse()
+    }
+
+    fn f(x: &str, y: &str) -> Result<i32, ParseIntError> {
+        let num1 = _parser(x);
+        let num2 = _parser(y);
+
+        let resultado = num1? + num2?;
+        Ok(resultado)
+    }
+
+    assert!(f("1", "2").is_ok());
+    assert!(f("1P", "2").is_err());
+
+    match f("1P", "2") {
+        Ok(n) => println!("Ok: {}", n),
+        Err(e) => println!("Error: {}", e)
+    }
 }
