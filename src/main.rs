@@ -28,7 +28,7 @@ fn _parseo() {
         Ok(n) => n,
         Err(_) => 0
     };
-    println!("{}", number);
+    assert_eq!(0, number);
 }
 
 fn _result() {
@@ -43,7 +43,7 @@ fn _result() {
         Ok(n) => n.to_string(),
         Err(e) => e.to_string()
     };
-    println!("{}", end); //5
+    assert_eq!("5", end);
 }
 
 fn _threads() {
@@ -87,7 +87,7 @@ fn _consumidores() {
     }
 
     let suma = (1..4).fold(0, |suma, x| suma + x); //6
-    print!("{}", suma);
+    assert_eq!(6, suma);
 }
 
 fn _adaptadores_de_iterador() {
@@ -115,7 +115,7 @@ fn _thread_handle() {
     let handle = thread::spawn(|| {
         "Hola desde un hilo!"
     });
-    println!("{}", handle.join().unwrap());
+    assert_eq!("Hola desde un hilo!", handle.join().unwrap());
 }
 
 fn _panico_hilo() {
@@ -129,5 +129,5 @@ fn _panico_hilo() {
         Ok(n) => n,
         Err(_e) => 0
     };
-    assert_eq!(resultado, 1);
+    assert_eq!(1, resultado);
 }
