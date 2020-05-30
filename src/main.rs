@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _etiquetas_loop();
+    _copy();
 }
 
 fn _vectores() {
@@ -302,4 +302,29 @@ fn _enumerate() {
     for (numero_linea, linea) in lineas.enumerate() {
         println!("{}: {}", numero_linea, linea);
     }
+}
+
+fn _pertenencia() {
+    let v = vec![1, 2, 3];
+    let v2 = v;
+    println!("v2[0] es: {}", v2[0]);
+    //println!("v[0] es: {}", v[0]); Error borrow of moved value: `v`
+}
+
+fn _pertenencia_funcion() {
+    fn tomar(_v: Vec<i32>) {
+        // Algo
+    }
+
+    let v = vec![1, 2, 3];
+    tomar(v);
+    //println!("v[0] es: {}", v[0]); Error  borrow of moved value: `v`
+}
+
+fn _copy() {
+    // i32 , Todos los tipos primitivos implementan el trait Copy
+    // Se realiza una copia y su pertenencia no es movida
+    let v: i32 = 1;
+    let _v2 = v;
+    println!("v es: {}", v); // =)
 }
