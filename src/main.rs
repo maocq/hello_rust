@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _copy();
+    _mutabilidad();
 }
 
 fn _vectores() {
@@ -327,4 +327,36 @@ fn _copy() {
     let v: i32 = 1;
     let _v2 = v;
     println!("v es: {}", v); // =)
+}
+
+fn _devolver_pertenencia() {
+    fn _foo(v: Vec<i32>) -> Vec<i32> {
+        v
+    }
+    fn foo(v1: Vec<i32>, v2: Vec<i32>) -> (Vec<i32>, Vec<i32>, i32) {
+        (v1, v2, 42)
+    }
+    let v1 = vec![1, 2, 3];
+    let v2 = vec![1, 2, 3];
+    let (v1, _v2, _r) = foo(v1, v2);
+    assert_eq!(1, v1[0]);
+}
+
+fn _prestamo() {
+    fn foo(_v1: &Vec<i32>, _v2: &Vec<i32>) -> i32 {
+        42
+    }
+    let v1 = vec![1, 2, 3];
+    let _v2 = vec![1, 2, 3];
+    let _r = foo(&v1, &_v2);
+
+    // podemos usar a v1 y v2 aqui
+    assert_eq!(1, v1[0]);
+}
+
+fn _mutabilidad() {
+    let mut x = 5;
+    assert_eq!(5, x);
+    x = 6;
+    assert_eq!(6, x);
 }
