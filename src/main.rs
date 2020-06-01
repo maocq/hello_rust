@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _mutabilidad();
+    _estructuras_pertenencia();
 }
 
 fn _vectores() {
@@ -308,7 +308,7 @@ fn _pertenencia() {
     let v = vec![1, 2, 3];
     let v2 = v;
     println!("v2[0] es: {}", v2[0]);
-    //println!("v[0] es: {}", v[0]); Error borrow of moved value: `v`
+    //println!("v[0] es: {}", v[0]); // Error borrow of moved value: `v`
 }
 
 fn _pertenencia_funcion() {
@@ -318,7 +318,7 @@ fn _pertenencia_funcion() {
 
     let v = vec![1, 2, 3];
     tomar(v);
-    //println!("v[0] es: {}", v[0]); Error  borrow of moved value: `v`
+    //println!("v[0] es: {}", v[0]); // Error  borrow of moved value: `v`
 }
 
 fn _copy() {
@@ -359,4 +359,39 @@ fn _mutabilidad() {
     assert_eq!(5, x);
     x = 6;
     assert_eq!(6, x);
+}
+
+fn _estructuras() {
+    struct Punto {
+        x: i32,
+        y: i32,
+    }
+    let origen = Punto { x: 0, y: 0 };
+    assert_eq!(0, origen.x);
+    assert_eq!(0, origen.y);
+}
+
+fn _sintaxis_de_actualizacion() {
+    struct Punto3d {
+        _x: i32,
+        _y: i32,
+        _z: i32,
+    }
+    let origen = Punto3d { _x: 1, _y: 2, _z: 3 };
+    let punto = Punto3d { _y: 1, .. origen };
+    assert_eq!(3, punto._z);
+}
+
+fn _estructuras_pertenencia() {
+    struct Punto {
+        x: i32,
+        y: i32,
+    }
+    fn foo(punto: Punto) -> i32 {
+        punto.x + punto.y
+    }
+    let origen = Punto { x: 1, y: 2 };
+    let suma = foo(origen);
+    println!("{}", suma);
+    //println!("Punto x {}", origen.x); // Error borrow of moved value: `origen`
 }
