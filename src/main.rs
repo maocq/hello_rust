@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _estructuras_pertenencia();
+    _estructuras_prestamo();
 }
 
 fn _vectores() {
@@ -394,4 +394,18 @@ fn _estructuras_pertenencia() {
     let suma = foo(origen);
     println!("{}", suma);
     //println!("Punto x {}", origen.x); // Error borrow of moved value: `origen`
+}
+
+fn _estructuras_prestamo() {
+    struct Punto {
+        x: i32,
+        y: i32,
+    }
+    fn foo(punto: &Punto) -> i32 {
+        punto.x + punto.y
+    }
+    let origen = Punto { x: 1, y: 2 };
+    let suma = foo(&origen);
+    assert_eq!(3, suma);
+    assert_eq!(1, origen.x);
 }
