@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _match_rangos();
+    _multiples_patrones_y_guardias();
 }
 
 fn _vectores() {
@@ -480,6 +480,14 @@ fn _match_rangos() {
         _ => "cualquier cosa",
     };
     assert_eq!("uno al cinco", resultado);
+
+    let y = 's';
+    let letra = match y {
+        'a' ..= 'j' => "letra temprana",
+        'k' ..= 'z' => "letra tardia",
+        _ => "algo mas"
+    };
+    assert_eq!("letra tardia", letra);
 }
 
 fn _destructuracion() {
@@ -495,4 +503,35 @@ fn _destructuracion() {
     match origen {
         Punto { x, .. } => println!("x es {}", x)
     }
+}
+
+fn _enlaces_a_variable() {
+    let x = 1;
+    match x {
+        e @ 1 ..= 5 => println!("valor de rango {} obtenido", e),
+        _ => println!("lo que sea"),
+    }
+}
+
+fn _guardias() {
+    enum EnteroOpcional {
+        Valor(i32),
+        _Faltante,
+    }
+    let x = EnteroOpcional::Valor(5);
+    match x {
+        EnteroOpcional::Valor(i) if i > 5 => println!("Entero mayor a cinco obtenido!"),
+        EnteroOpcional::Valor(..) => println!("Entero obtenido!"),
+        EnteroOpcional::_Faltante => println!("Sin suerte."),
+    }
+}
+
+fn _multiples_patrones_y_guardias() {
+    let x = 4;
+    let y = false;
+    let resultado = match x {
+        4 | 5 if y => "si",
+        _ => "no"
+    };
+    assert_eq!("no", resultado);
 }
