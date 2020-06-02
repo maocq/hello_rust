@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _enumeraciones();
+    _result_funciones();
 }
 
 fn _vectores() {
@@ -165,12 +165,17 @@ fn _result_funciones() {
         Tecnico
     }
 
-    fn f(num: i32) -> Result<i32, Error> {
+    let f: fn(i32) -> Result<i32, Error> = |num: i32| match num {
+        1 => Ok(num + 1),
+        _ => Err(Error::Tecnico)
+    };
+
+    /*fn f(num: i32) -> Result<i32, Error> {
         match num {
             1 => Ok(num + 1),
             _ => Err(Error::Tecnico)
         }
-    }
+    }*/
 
     assert!(f(1).is_ok());
     assert!(f(2).is_err());
