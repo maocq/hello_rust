@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _result_funciones();
+    _match_rangos();
 }
 
 fn _vectores() {
@@ -440,4 +440,59 @@ fn _enumeraciones() {
     let _mover = Mover {_x: 0, _y: 2};
 
     let _escribir = Mensaje::Escribir("Hello".to_string());
+}
+
+fn _match_en_enums() {
+    enum _Mensaje {
+        Salir,
+        CambiarColor(i32, i32, i32),
+        Mover { x: i32, _y: i32 },
+        Escribir(String),
+    }
+    fn _salir() { /* ... */ }
+    fn _cambiar_color(_r: i32, _g: i32, _b: i32) { /* ... */ }
+    fn _mover_cursor(_x: i32, _y: i32) { /* ... */ }
+
+    fn _procesar_mensaje(msj: _Mensaje) {
+        match msj {
+            _Mensaje::Salir => _salir(),
+            _Mensaje::CambiarColor(r, g, b) => _cambiar_color(r, g, b),
+            _Mensaje::Mover { x, _y: y } => _mover_cursor(x, y),
+            _Mensaje::Escribir(s) => println!("{}", s),
+        };
+    }
+}
+
+fn _multiples_patrones() {
+    let x = 2;
+    let num = match x {
+        1 | 2 => "1, 2",
+        3 => "3",
+        _ => "...",
+    };
+    assert_eq!("1, 2", num);
+}
+
+fn _match_rangos() {
+    let x = 3;
+    let resultado = match x {
+        1 ..= 5 => "uno al cinco",
+        _ => "cualquier cosa",
+    };
+    assert_eq!("uno al cinco", resultado);
+}
+
+fn _destructuracion() {
+    struct Punto {
+        x: i32,
+        y: i32,
+    }
+    let origen = Punto { x: 0, y: 2 };
+    match origen {
+        Punto { x, y } => println!("({},{})", x, y),
+    }
+
+    match origen {
+        Punto { x, .. } => println!("x es {}", x)
+    }
 }
