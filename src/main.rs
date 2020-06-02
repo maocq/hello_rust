@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _metodos_en_cadena();
+    _funciones_asociadas();
 }
 
 fn _vectores() {
@@ -571,4 +571,18 @@ fn _metodos_en_cadena() {
     println!("{}", c.area());
     let d = c.agrandar(2.0).area();
     println!("{}", d);
+}
+
+
+fn _funciones_asociadas() {
+    struct Circulo { _x: f64, _y: f64, radio: f64, }
+
+    impl Circulo {
+        fn new(x: f64, y: f64, radio: f64) -> Circulo {
+            Circulo { _x: x, _y: y, radio: radio, }
+        }
+    }
+
+    let c = Circulo::new(0.0, 0.0, 2.0);
+    assert_eq!(2.0, c.radio);
 }
