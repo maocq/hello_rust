@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _estructuras_prestamo();
+    _enumeraciones();
 }
 
 fn _vectores() {
@@ -408,4 +408,31 @@ fn _estructuras_prestamo() {
     let suma = foo(&origen);
     assert_eq!(3, suma);
     assert_eq!(1, origen.x);
+}
+
+fn _tupla_estructuras() {
+    struct Color(i32, i32, i32);
+    let azul = Color(0, 0, 255);
+    assert_eq!(255, azul.2);
+}
+
+fn _estructuras_tipo_unitario() {
+    struct Electron;
+    let _e = Electron;
+}
+
+fn _enumeraciones() {
+    enum Mensaje {
+        Salir,
+        CambiarColor(i32, i32, i32),
+        Mover { _x: i32, _y: i32 },
+        Escribir(String),
+    }
+    let _salir = Mensaje::Salir;
+    let _cambiar_color = Mensaje::CambiarColor(0, 0, 255);
+
+    use Mensaje::{Mover};
+    let _mover = Mover {_x: 0, _y: 2};
+
+    let _escribir = Mensaje::Escribir("Hello".to_string());
 }
