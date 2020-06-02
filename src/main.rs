@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _multiples_patrones_y_guardias();
+    _metodos_en_cadena();
 }
 
 fn _vectores() {
@@ -534,4 +534,41 @@ fn _multiples_patrones_y_guardias() {
         _ => "no"
     };
     assert_eq!("no", resultado);
+}
+
+fn _llamadas_a_metodos() {
+    struct Circulo {
+        _x: f64,
+        _y: f64,
+        radio: f64,
+    }
+    impl Circulo {
+        fn area(&self) -> f64 {
+            std::f64::consts::PI * (self.radio * self.radio)
+        }
+    }
+
+    let c = Circulo { _x: 0.0, _y: 0.0, radio: 2.0 };
+    println!("{}", c.area());
+}
+
+fn _metodos_en_cadena() {
+    struct Circulo {
+        x: f64,
+        y: f64,
+        radio: f64,
+    }
+    impl Circulo {
+        fn agrandar(&self, incremento: f64) -> Circulo {
+            Circulo { x: self.x, y: self.y, radio: self.radio + incremento }
+        }
+        fn area(&self) -> f64 {
+            std::f64::consts::PI * (self.radio * self.radio)
+        }
+    }
+
+    let c = Circulo { x: 0.0, y: 0.0, radio: 2.0 };
+    println!("{}", c.area());
+    let d = c.agrandar(2.0).area();
+    println!("{}", d);
 }
