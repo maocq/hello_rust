@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _builder();
+    _genericos();
 }
 
 fn _vectores() {
@@ -594,21 +594,21 @@ fn _builder() {
             std::f64::consts::PI * (self.radio * self.radio)
         }
     }
-    struct ConstructorCirculo { x: f64, y: f64, radio: f64 }
+    struct CirculoBuilder { x: f64, y: f64, radio: f64 }
 
-    impl ConstructorCirculo {
-        fn new() -> ConstructorCirculo {
-            ConstructorCirculo { x: 0.0, y: 0.0, radio: 1.0, }
+    impl CirculoBuilder {
+        fn new() -> CirculoBuilder {
+            CirculoBuilder { x: 0.0, y: 0.0, radio: 1.0, }
         }
-        fn x(&mut self, coordenada: f64) -> &mut ConstructorCirculo {
+        fn x(&mut self, coordenada: f64) -> &mut CirculoBuilder {
             self.x = coordenada;
             self
         }
-        fn y(&mut self, coordenada: f64) -> &mut ConstructorCirculo {
+        fn y(&mut self, coordenada: f64) -> &mut CirculoBuilder {
             self.y = coordenada;
             self
         }
-        fn radio(&mut self, radio: f64) -> &mut ConstructorCirculo {
+        fn radio(&mut self, radio: f64) -> &mut CirculoBuilder {
             self.radio = radio;
             self
         }
@@ -617,7 +617,7 @@ fn _builder() {
         }
     }
 
-    let c = ConstructorCirculo::new()
+    let c = CirculoBuilder::new()
         .x(1.0)
         .y(2.0)
         .radio(2.0)
@@ -627,4 +627,21 @@ fn _builder() {
     println!("y: {}", c.y);
 
     assert_eq!(2.0, c.y);
+}
+
+fn _cadenas_de_caracteres() {
+    let _saludo: &str = "Hola.";
+
+    let mut s: String = "Hola".to_string();
+    s.push_str(", mundo.");
+
+    assert_eq!("Hola, mundo.", s);
+}
+
+fn _genericos() {
+    enum _Option<T> {
+        _Some(T),
+        _None,
+    }
+    let _x: _Option<i32> = _Option::_Some(5);
 }
