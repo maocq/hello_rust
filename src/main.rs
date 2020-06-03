@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _genericos();
+    _traits();
 }
 
 fn _vectores() {
@@ -644,4 +644,46 @@ fn _genericos() {
         _None,
     }
     let _x: _Option<i32> = _Option::_Some(5);
+}
+
+fn _funciones_genericas() {
+    fn foo<T>(x: T) -> T {
+        x
+    }
+    let num = foo(1);
+    assert_eq!(1, num);
+}
+
+fn _structs_genericos() {
+    struct Info<T1, T2> {
+        x: T1,
+        y: T2,
+    }
+    impl<T1, T2> Info<T1, T2> {
+        fn foo(&self) {
+            //
+        }
+    }
+
+    let info = Info { x: 1, y: "=)" };
+    info.foo();
+    assert_eq!(1, info.x);
+    assert_eq!("=)", info.y);
+}
+
+fn _traits() {
+    trait Area {
+        fn area(&self) -> f64;
+    }
+
+    struct Circulo { _x: f64, _y: f64, radio: f64 }
+    impl Area for Circulo {
+        fn area(&self) -> f64 {
+            std::f64::consts::PI * (self.radio * self.radio)
+        }
+    }
+
+    let c = Circulo{ _x:0.0, _y:0.0, radio: 2.0};
+    let a = c.area();
+    println!("{}", a);
 }
