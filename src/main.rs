@@ -208,6 +208,7 @@ fn _try() {
         let num1 = _parser(x);
         let num2 = _parser(y);
 
+        //let resultado = _parser(x) ? + _parser(y)?;
         let resultado = num1? + num2?;
         Ok(resultado)
     }
@@ -683,7 +684,14 @@ fn _traits() {
         }
     }
 
-    let c = Circulo{ _x:0.0, _y:0.0, radio: 2.0};
+    let c = Circulo{ _x:0.0, _y:0.0, radio: 2.0 };
     let a = c.area();
     println!("{}", a);
+
+    //Genericos
+    fn imrimir_area<T: Area>(figura: T) {
+        println!("Esta figura tiene un area de {}", figura.area());
+    }
+
+    imrimir_area(c)
 }
