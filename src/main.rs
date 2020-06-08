@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _option_match();
+    _retornando_closures();
 }
 
 fn _vectores() {
@@ -793,4 +793,45 @@ fn _drop() {
         }
     }
     let _x = HasDrop;
+}
+
+fn _if_let() {
+    fn foo(x: i32) { println!("Number: {}", x); }
+
+    let option = Some(5);
+    if let Some(x) = option {
+        foo(x);
+    }
+}
+
+fn _closures() {
+    let plus_one = |x: i32| x + 1;
+    assert_eq!(2, plus_one(1));
+
+    //let plus_one: fn(i32) -> i32 = |x: i32| x + 1;
+
+    /*
+    fn suma_uno_v1 (x: i32) -> i32 { x + 1 }
+    let suma_uno_v2 = |x: i32| -> i32 { x + 1 };
+    let suma_uno_v3 = |x: i32| x + 1 ;
+     */
+}
+
+fn _closures_como_argumentos() {
+    fn llamar_con_uno<F>(closure: F) -> i32 where F : Fn(i32) -> i32 {
+        closure(1)
+    }
+    let respuesta = llamar_con_uno(|x| x + 2);
+    assert_eq!(3, respuesta);
+}
+
+fn _retornando_closures() {
+    fn factory() -> Box<dyn Fn(i32) -> i32> {
+        let num = 5;
+        Box::new(move |x| x + num)
+    }
+
+    let f = factory();
+    let respuesta = f(1);
+    assert_eq!(6, respuesta);
 }
