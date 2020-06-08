@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _futures();
+    _await();
 }
 
 fn _vectores() {
@@ -845,4 +845,19 @@ fn _futures() {
 
     let future = hello_world();
     block_on(future);
+}
+
+fn _await() {
+    async fn first_function() -> u32 { 1 }
+    async fn second_function() -> u32 { 2 }
+    async fn another_function() {
+
+        let first = first_function().await;
+        let second = second_function().await;
+        let sum = first + second;
+        println!("{}", sum);
+    }
+
+    use futures::executor::block_on;
+    block_on(another_function());
 }
