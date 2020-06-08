@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _retornando_closures();
+    _futures();
 }
 
 fn _vectores() {
@@ -834,4 +834,15 @@ fn _retornando_closures() {
     let f = factory();
     let respuesta = f(1);
     assert_eq!(6, respuesta);
+}
+
+fn _futures() {
+    use futures::executor::block_on;
+
+    async fn hello_world() {
+        println!("hello, world!");
+    }
+
+    let future = hello_world();
+    block_on(future);
 }
