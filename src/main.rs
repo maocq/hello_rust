@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _metodos_por_defecto_bar();
+    _drop();
 }
 
 fn _vectores() {
@@ -742,4 +742,35 @@ fn _metodos_por_defecto_bar() {
 
     let sum = ImplBar::plus_one(2);
     assert_eq!(3, sum);
+}
+
+fn _herencia() {
+    trait Foo {
+        fn foo(&self);
+    }
+    trait FooBar : Foo {
+        fn foobar(&self);
+    }
+
+    struct Baz;
+    impl Foo for Baz {
+        fn foo(&self) { println!("foo"); }
+    }
+    impl FooBar for Baz {
+        fn foobar(&self) { println!("foobar"); }
+    }
+
+    let baz = Baz;
+    baz.foo();
+    baz.foobar();
+}
+
+fn _drop() {
+    struct HasDrop;
+    impl Drop for HasDrop {
+        fn drop(&mut self) {
+            println!("Dropeando!");
+        }
+    }
+    let _x = HasDrop;
 }
