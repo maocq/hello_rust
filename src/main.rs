@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _drop();
+    _option_match();
 }
 
 fn _vectores() {
@@ -44,6 +44,16 @@ fn _result() {
         Err(e) => e.to_string()
     };
     assert_eq!("5", end);
+}
+
+fn _result_match() {
+    let result: Result<i32, &str> = Ok(5);
+
+    let number = match result {
+        Ok(x) => x,
+        Err(_e) => 0,
+    };
+    assert_eq!(5, number)
 }
 
 fn _threads() {
@@ -158,6 +168,16 @@ fn _option() {
 
     assert_eq!(s.find('f').map(|p| p + 1), Some(1));
     assert_eq!(s.find('z').map(|p| p + 1), None);
+}
+
+fn _option_match() {
+    let option = Some(5);
+
+    let number = match option {
+        Some(x) => x,
+        None => 0,
+    };
+    assert_eq!(5, number);
 }
 
 fn _result_funciones() {
