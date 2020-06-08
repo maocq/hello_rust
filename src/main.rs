@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _traits();
+    _metodos_por_defecto_bar();
 }
 
 fn _vectores() {
@@ -694,4 +694,52 @@ fn _traits() {
     }
 
     imrimir_area(c)
+}
+
+fn _multiples_limites_de_trait() {
+    use std::fmt::Display;
+
+    fn foo<T: Clone, K: Clone + Display>(x: T, y: K) -> String {
+        let _x_clone = x.clone();
+        let y_clone = y.clone();
+        format!("{}", y_clone)
+    }
+    fn bar<T, K>(x: T, y: K) -> String where T: Clone, K: Clone + Display {
+        let _x_clone = x.clone();
+        let y_clone = y.clone();
+        format!("{}", y_clone)
+    }
+
+    let r_foo = foo("Hola", "mundo");
+    let r_bar = bar("Hola", "mundo");
+
+    assert_eq!(r_foo, r_bar);
+}
+
+fn _metodos_por_defecto() {
+    trait Foo {
+        fn es_valido(&self) -> bool;
+        fn es_invalido(&self) -> bool { !self.es_valido() }
+    }
+
+    struct Default;
+    impl Foo for Default {
+        fn es_valido(&self) -> bool { true }
+    }
+
+    let default = Default;
+    assert!(default.es_valido());
+    assert!(!default.es_invalido());
+}
+
+fn _metodos_por_defecto_bar() {
+    trait Bar {
+        fn plus_one(x: i32) -> i32 { x + 1}
+    }
+
+    struct ImplBar;
+    impl Bar for ImplBar{};
+
+    let sum = ImplBar::plus_one(2);
+    assert_eq!(3, sum);
 }
