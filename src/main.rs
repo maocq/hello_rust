@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _await();
+    _futures_join();
 }
 
 fn _vectores() {
@@ -66,6 +66,21 @@ fn _threads() {
     for h in handles {
         h.join().ok().expect("No se pudo unir un hilo!");
     }
+}
+
+fn _threads_join() {
+    thread::spawn(|| {
+        thread::sleep(Duration::from_millis(3000));
+        println!("Hola desde 1");
+    });
+    let thread2 = thread::spawn(|| {
+        thread::sleep(Duration::from_millis(3000));
+        println!("Hola desde 2");
+    });
+
+    println!("end...");
+    thread2.join().expect("Error");
+    //thread::sleep(Duration::from_millis(4000));
 }
 
 fn _iteradores() {
@@ -240,6 +255,26 @@ fn _try() {
         Ok(n) => println!("Ok: {}", n),
         Err(e) => println!("Error: {}", e)
     }
+}
+
+fn _try_azucar_sintactico() {
+    fn foo(n: i32) -> Result<i32, String> {
+        if n % 2 == 0 {
+            Ok(1)
+        } else { Err(String::from("Error")) }
+    }
+
+    fn bar() -> Result<i32, String> {
+        Ok(2)
+    }
+
+    fn foo_bar() -> Result<i32, String> {
+        let res = foo(2)? + bar()?;
+        Ok(res)
+    }
+
+    let fb = foo_bar();
+    assert!(fb.is_ok());
 }
 
 fn _apuntadores_a_funcion() {
@@ -848,8 +883,16 @@ fn _futures() {
 }
 
 fn _await() {
-    async fn first_function() -> u32 { 1 }
-    async fn second_function() -> u32 { 2 }
+    async fn first_function() -> u32 {
+        thread::sleep(Duration::from_millis(2000));
+        println!("1");
+        1
+    }
+    async fn second_function() -> u32 {
+        thread::sleep(Duration::from_millis(2000));
+        println!("2");
+        2
+    }
     async fn another_function() {
 
         let first = first_function().await;
@@ -860,4 +903,66 @@ fn _await() {
 
     use futures::executor::block_on;
     block_on(another_function());
+    println!("end...");
+}
+
+fn _futures_join() {
+    use futures::join;
+    use futures::executor::block_on;
+
+    async fn get_book() -> u32 {
+        thread::sleep(Duration::from_millis(3000));
+        println!("get_book");
+        1
+    }
+
+    async fn get_music() -> u32 {
+        thread::sleep(Duration::from_millis(3000));
+        println!("get_music");
+        1
+    }
+
+    async fn get_book_and_music() -> (u32, u32) {
+        let book_fut = get_book();
+        let music_fut = get_music();
+        join!(book_fut, music_fut)
+    }
+
+    block_on(get_book_and_music());
+}
+
+fn _futures_join_2() {
+    use futures::executor::block_on;
+
+    async fn learn_song() -> u32 {
+        thread::sleep(Duration::from_millis(3000));
+        println!("learn_song");
+        1
+    }
+
+    async fn sing_song(_song: u32) -> u32 {
+        thread::sleep(Duration::from_millis(3000));
+        println!("sing_song");
+        1
+    }
+
+    async fn dance() -> u32 {
+        thread::sleep(Duration::from_millis(3000));
+        println!("dance");
+        1
+    }
+
+    async fn learn_and_sing() {
+        let song = learn_song().await;
+        sing_song(song).await;
+    }
+
+    async fn async_main() {
+        let f1 = learn_and_sing();
+        let f2 = dance();
+
+        futures::join!(f1, f2);
+    }
+
+    block_on(async_main());
 }
