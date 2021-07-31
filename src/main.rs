@@ -3,7 +3,42 @@ use std::num::ParseIntError;
 use std::time::Duration;
 
 fn main() {
-    _futures_join();
+    memory();
+}
+
+struct Punto {
+    _x: i8,
+    _y: i8
+}
+
+fn memory() {
+    let _punto = Punto { _x: 1, _y: 2 };
+    println!("Inicio address: {:p}", &_punto);
+
+    _address(&_punto);
+    _copy_value(_punto);
+
+    println!("------------------",);
+
+    let caja = Box::new(Punto { _x: 1, _y: 2 });
+    println!("Inicio address: {:p}", caja);
+    _address(&caja);
+    _copy_value(*caja);
+
+    println!("------------------",);
+    let otra_caja = Box::new(Punto { _x: 1, _y: 2 });
+    println!("Inicio address: {:p}", otra_caja);
+    //* Realiza una copia *otra_caja;
+    let otro_contenido = *otra_caja;
+    println!("Contenido address: {:p}", &otro_contenido);
+}
+
+fn _address(p: &Punto) {
+    println!("Puntero address: {:p}", p);
+}
+
+fn _copy_value(p: Punto) {
+    println!("Valor address: {:p}", &p);
 }
 
 fn _vectores() {
